@@ -36,20 +36,20 @@ def timer(timeVar): ## function that can be used to count time in seconds and st
 	return timeVar
 
 try:
-	loadData()
+	##loadData()
 	startTime = time.perf_counter()
-	firstOpen = 0;
-	valveOpenTime = 0;
-	MAX_OPEN_SECONDS = 30;
+	dayTimer = 0
+	valveOpenTime = 0
+	MAX_OPEN_SECONDS = 30
 	while True
         	dayTimer = timer(dayTimer)
         	while checkForWater() == true && valveOpenTime < MAX_OPEN_SECONDS :
           		valveOpenTime = timer(valveOpenTime);
                 	valveOpen()
 		valveClose()
-        	sleep(x)
+        	sleep(0.1)
 		
 finally: 
 	GPIO.cleanup()
-	saveData()
+	##saveData()
 	##Reboot
