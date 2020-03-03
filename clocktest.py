@@ -5,12 +5,15 @@ GPIO.setup(40, GPIO.IN)
 GPIO.setup(38, GPIO.OUT)
 
 def loadData():
-	##loads data from encrypted text file
+	##loads data from encrypted text 
+
+def saveData():
+	##saves data and encrpyts on reboot
 
 def checkForWater(): ## checks water sensor
 	if (GPIO.input(40)): 
 		if firstOpen == 0 :
-            		firstOpen = perf_counter
+            		firstOpen = time.perf_counter()
 		return true
 	else:
 		return false
@@ -20,20 +23,33 @@ def valveOpen(): ## sends positive output to open valve
 
 def valveClose(): ## sends negative output to close valve
 	GPIO.output(38, 0)
+	
+def timer(timeVar): ## function that can be used to count time in seconds and store in a given variable
+	if timeVar == 0:
+		holdTime = time.perf_counter()
+		sleep(0.1)
+		holdTime = time.perf_counter()
+		timeVar = holdTime
+	else:
+		timeVar = time.perf_counter() - timeVar
+		
+	return timeVar
 
 try:
+	loadData()
 	startTime = time.perf_counter()
 	firstOpen = 0;
-	valveTime = 0;
+	valveOpenTime = 0;
+	MAX_OPEN_SECONDS = 30;
 	while True
-        	dayCounter = perf_counter() - dayCounter
-        	waterSensor = checkForWater();
-        	while waterSensor == true && valveTime < 30min :
-          		valveTime = perf_counter - valveTime;
-           		if valveOpen == false:
-                		valveOpen()
-        	if valveOpen == true:
-			valveClose()
+        	dayTimer = timer(dayTimer)
+        	while checkForWater() == true && valveOpenTime < MAX_OPEN_SECONDS :
+          		valveOpenTime = timer(valveOpenTime);
+                	valveOpen()
+		valveClose()
         	sleep(x)
 		
-finally: GPIO.cleanup()
+finally: 
+	GPIO.cleanup()
+	saveData()
+	##Reboot
