@@ -9,6 +9,8 @@ def loadData():
 
 def checkForWater(): ## checks water sensor
 	if (GPIO.input(40)): 
+		if firstOpen == 0 :
+            		firstOpen = perf_counter
 		return true
 	else:
 		return false
@@ -19,37 +21,19 @@ def valveOpen(): ## sends positive output to open valve
 def valveClose(): ## sends negative output to close valve
 	GPIO.output(38, 0)
 
+try:
 	startTime = time.perf_counter()
 	firstOpen = 0;
 	valveTime = 0;
-
-try:
-    while(true){
-
-        dayCounter = perf_counter() - dayCounter
-        waterSensor = checkForWater();
-        while(waterSensor == true && valveTime < 30min){
-            valveTime = perf_counter - valveTime;
-            if(valveOpen == false){
-                valveOpen()
-            }
-        }
-        if(valveOpen == true){
-            valveClose()
-        }
-        sleep(x)
-    }
-
-    checkForWater{
-        if(water && firstOpen == 0){
-            firstOpen = perf_counter
-            return true;
-        }
-        else if(water){
-            return true;
-        }
-        else{
-            return false;
-        }
-    }
+	while True
+        	dayCounter = perf_counter() - dayCounter
+        	waterSensor = checkForWater();
+        	while waterSensor == true && valveTime < 30min :
+          		valveTime = perf_counter - valveTime;
+           		if valveOpen == false:
+                		valveOpen()
+        	if valveOpen == true:
+			valveClose()
+        	sleep(x)
+		
 finally: GPIO.cleanup()
